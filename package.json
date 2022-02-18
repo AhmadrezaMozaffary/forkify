@@ -1,0 +1,33 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Create a fake recipe website with Javascript and some useful technologies and tools such as Parcel, npm, ES6 modules, OOP, and so forth.",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmadrezaMozaffary/forkify.git"
+  },
+  "keywords": [
+    "OOP",
+    "NPM",
+    "Modules",
+    "ES6",
+    "Parcel",
+    "..."
+  ],
+  "author": "Ahmadreza Mozaffary",
+  "license": "-",
+  "bugs": {
+    "url": "https://github.com/AhmadrezaMozaffary/forkify/issues"
+  },
+  "homepage": "https://github.com/AhmadrezaMozaffary/forkify#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.3.1",
+    "parcel": "^2.3.1",
+    "sass": "^1.49.8"
+  }
+}

@@ -1,3 +1,5 @@
+node_modules
+.parcel-cache
 .prettierrc
 forkify-architecture-recipe-loading.png
 forkify-flowchart-part-1.png
