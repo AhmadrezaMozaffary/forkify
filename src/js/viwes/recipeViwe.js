@@ -84,7 +84,7 @@ class RecipeViwe {
             <h2 class="heading--2">Recipe ingredients</h2>
             <ul class="recipe__ingredient-list">
     
-            ${this.#data.ingredients.map(this.#generateMarkupIngregient).join("")}
+            ${this.#data.ingredients.map(this.#generateMarkupIngredient).join("")}
     
             </ul>
           </div>
@@ -116,7 +116,7 @@ class RecipeViwe {
     this.#parentElement.innerHTML = " ";
   }
 
-  #generateMarkupIngregient(ing) {
+  #generateMarkupIngredient(ing) {
     return `
     <li class="recipe__ingredient">
       <svg class="recipe__icon">
