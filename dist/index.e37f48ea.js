@@ -524,9 +524,10 @@ var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
 var _recipeViweJs = require("./viwes/recipeViwe.js");
 var _recipeViweJsDefault = parcelHelpers.interopDefault(_recipeViweJs);
+var _searchViweJs = require("./viwes/searchViwe.js");
+var _searchViweJsDefault = parcelHelpers.interopDefault(_searchViweJs);
 var _runtime = require("regenerator-runtime/runtime");
-//const recipeContainer = document.querySelector(".recipe");
-///////////////////////////////////////
+var _regeneratorRuntime = require("regenerator-runtime");
 const controllRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
@@ -541,13 +542,27 @@ const controllRecipes = async function() {
         _recipeViweJsDefault.default.renderError();
     }
 };
+const controllSearchResults = async function() {
+    try {
+        // 1) Get search query
+        const query = _searchViweJsDefault.default.getQuery();
+        if (!query) return;
+        // 2) Load search result
+        await _modelJs.loadSearchResults(query);
+        // 3) Render results
+        console.log(_modelJs.state);
+    } catch (error) {
+        console.error(error);
+    }
+};
 const init = function() {
     //Subscriber  -> P-S pattern
     _recipeViweJsDefault.default.addHandlerRender(controllRecipes);
+    _searchViweJsDefault.default.addHandlerSearch(controllSearchResults);
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./viwes/recipeViwe.js":"9LLNE"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./viwes/recipeViwe.js":"9LLNE","regenerator-runtime":"dXNgZ","./viwes/searchViwe.js":"k6ZpT"}],"49tUX":[function(require,module,exports) {
 var $ = require('../internals/export');
 var global = require('../internals/global');
 var task = require('../internals/task');
@@ -2225,11 +2240,17 @@ parcelHelpers.export(exports, "state", ()=>state
 );
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe
 );
+parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults
+);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
 const state = {
     recipe: {
+    },
+    search: {
+        query: "",
+        results: []
     }
 };
 const loadRecipe = async function(id) {
@@ -2246,6 +2267,22 @@ const loadRecipe = async function(id) {
             sourceUrl: recipe.source_url,
             title: recipe.title
         };
+    } catch (error) {
+        throw error;
+    }
+};
+const loadSearchResults = async function(query) {
+    try {
+        state.search.query = query;
+        const data = await _helpersJs.getJSON(`${_configJs.API_URL}?search=${query}`);
+        state.search.results = data.data.recipes.map((recipe)=>{
+            return {
+                id: recipe.id,
+                title: recipe.title,
+                publisher: recipe.publisher,
+                image: recipe.image_url
+            };
+        });
     } catch (error) {
         throw error;
     }
@@ -2728,6 +2765,29 @@ Fraction.primeFactors = function(n) {
 };
 module.exports.Fraction = Fraction;
 
-},{}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
+},{}],"k6ZpT":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchViwe {
+    #parentElement = document.querySelector(".search");
+    getQuery() {
+        const query = this.#parentElement.querySelector(".search__field").value;
+        this.#clearInput();
+        return query;
+    }
+     #clearInput() {
+        return this.#parentElement.querySelector(".search__field").value = "";
+    }
+    //Publisher  -> P-S pattern
+    addHandlerSearch(handler) {
+        this.#parentElement.addEventListener("submit", function(e) {
+            e.preventDefault();
+            handler();
+        });
+    }
+}
+exports.default = new SearchViwe();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map
