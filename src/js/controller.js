@@ -22,12 +22,12 @@ const controllRecipes = async function () {
     // 2) Rendering Recipe
     recipeViwe.render(model.state.recipe);
   } catch (err) {
-    alert(err);
+    recipeViwe.renderError();
   }
 };
 
 const init = function () {
   //Subscriber  -> P-S pattern
-  recipeViwe.addHandlerRender(controllRecipes)
+  recipeViwe.addHandlerRender(controllRecipes);
 };
 init();
