@@ -24,6 +24,13 @@ class RecipeViwe {
     this.#parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
+  //Publisher  -> P-S pattern
+  addHandlerRender(handler) {
+    ["hashchange", "load"].forEach(event =>
+      window.addEventListener(event, handler)
+    );
+  }
+
   #generatemarkup() {
     return `
       <figure class="recipe__fig">
@@ -84,7 +91,9 @@ class RecipeViwe {
             <h2 class="heading--2">Recipe ingredients</h2>
             <ul class="recipe__ingredient-list">
     
-            ${this.#data.ingredients.map(this.#generateMarkupIngredient).join("")}
+            ${this.#data.ingredients
+              .map(this.#generateMarkupIngredient)
+              .join("")}
     
             </ul>
           </div>

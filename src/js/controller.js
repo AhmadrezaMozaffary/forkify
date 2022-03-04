@@ -21,12 +21,13 @@ const controllRecipes = async function () {
 
     // 2) Rendering Recipe
     recipeViwe.render(model.state.recipe);
-
   } catch (err) {
     alert(err);
   }
 };
 
-["hashchange", "load"].forEach(event =>
-  window.addEventListener(event, controllRecipes)
-);
+const init = function () {
+  //Subscriber  -> P-S pattern
+  recipeViwe.addHandlerRender(controllRecipes)
+};
+init();
