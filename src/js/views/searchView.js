@@ -1,4 +1,4 @@
-class SearchViwe {
+class SearchView {
   #parentElement = document.querySelector(".search");
 
   getQuery() {
@@ -19,4 +19,4 @@ class SearchViwe {
     });
   }
 }
-export default new SearchViwe();
+export default new SearchView();

@@ -1,6 +1,6 @@
 import * as model from "./model.js";
-import recipeViwe from "./viwes/recipeViwe.js";
-import searchViwe from "./viwes/searchViwe.js";
+import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -12,22 +12,22 @@ const controllRecipes = async function () {
     if (!id) return;
 
     // 0) Render spinner
-    recipeViwe.renderSpinner();
+    recipeView.renderSpinner();
 
     // 1) Loading Recipe
     await model.loadRecipe(id); // returns Promise
 
     // 2) Rendering Recipe
-    recipeViwe.render(model.state.recipe);
+    recipeView.render(model.state.recipe);
   } catch (err) {
-    recipeViwe.renderError();
+    recipeView.renderError();
   }
 };
 
 const controllSearchResults = async function () {
   try {
     // 1) Get search query
-    const query = searchViwe.getQuery();
+    const query = searchView.getQuery();
     if (!query) return;
 
     // 2) Load search result
@@ -42,7 +42,7 @@ const controllSearchResults = async function () {
 
 const init = function () {
   //Subscriber  -> P-S pattern
-  recipeViwe.addHandlerRender(controllRecipes);
-  searchViwe.addHandlerSearch(controllSearchResults);
+  recipeView.addHandlerRender(controllRecipes);
+  searchView.addHandlerSearch(controllSearchResults);
 };
 init();

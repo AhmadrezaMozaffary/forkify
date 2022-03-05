@@ -522,10 +522,10 @@ function hmrAcceptRun(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
-var _recipeViweJs = require("./viwes/recipeViwe.js");
-var _recipeViweJsDefault = parcelHelpers.interopDefault(_recipeViweJs);
-var _searchViweJs = require("./viwes/searchViwe.js");
-var _searchViweJsDefault = parcelHelpers.interopDefault(_searchViweJs);
+var _recipeViewJs = require("./views/recipeView.js");
+var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 var _runtime = require("regenerator-runtime/runtime");
 var _regeneratorRuntime = require("regenerator-runtime");
 const controllRecipes = async function() {
@@ -533,19 +533,19 @@ const controllRecipes = async function() {
         const id = window.location.hash.slice(1);
         if (!id) return;
         // 0) Render spinner
-        _recipeViweJsDefault.default.renderSpinner();
+        _recipeViewJsDefault.default.renderSpinner();
         // 1) Loading Recipe
         await _modelJs.loadRecipe(id); // returns Promise
         // 2) Rendering Recipe
-        _recipeViweJsDefault.default.render(_modelJs.state.recipe);
+        _recipeViewJsDefault.default.render(_modelJs.state.recipe);
     } catch (err) {
-        _recipeViweJsDefault.default.renderError();
+        _recipeViewJsDefault.default.renderError();
     }
 };
 const controllSearchResults = async function() {
     try {
         // 1) Get search query
-        const query = _searchViweJsDefault.default.getQuery();
+        const query = _searchViewJsDefault.default.getQuery();
         if (!query) return;
         // 2) Load search result
         await _modelJs.loadSearchResults(query);
@@ -557,12 +557,12 @@ const controllSearchResults = async function() {
 };
 const init = function() {
     //Subscriber  -> P-S pattern
-    _recipeViweJsDefault.default.addHandlerRender(controllRecipes);
-    _searchViweJsDefault.default.addHandlerSearch(controllSearchResults);
+    _recipeViewJsDefault.default.addHandlerRender(controllRecipes);
+    _searchViewJsDefault.default.addHandlerSearch(controllSearchResults);
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./viwes/recipeViwe.js":"9LLNE","regenerator-runtime":"dXNgZ","./viwes/searchViwe.js":"k6ZpT"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","regenerator-runtime":"dXNgZ","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM"}],"49tUX":[function(require,module,exports) {
 var $ = require('../internals/export');
 var global = require('../internals/global');
 var task = require('../internals/task');
@@ -2326,13 +2326,13 @@ const getJSON = async function(url) {
     }
 };
 
-},{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9LLNE":[function(require,module,exports) {
+},{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
-class RecipeViwe {
+class RecipeView {
     #parentElement = document.querySelector(".recipe");
     #data;
     #errorMessage = "We could not find that recipe, Please try another one!";
@@ -2472,9 +2472,9 @@ class RecipeViwe {
   `;
     }
 }
-exports.default = new RecipeViwe();
+exports.default = new RecipeView();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp","fractional":"3SU56"}],"loVOp":[function(require,module,exports) {
+},{"url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('hWUTQ') + "icons.dfd7a6db.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -2765,10 +2765,10 @@ Fraction.primeFactors = function(n) {
 };
 module.exports.Fraction = Fraction;
 
-},{}],"k6ZpT":[function(require,module,exports) {
+},{}],"9OQAM":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-class SearchViwe {
+class SearchView {
     #parentElement = document.querySelector(".search");
     getQuery() {
         const query = this.#parentElement.querySelector(".search__field").value;
@@ -2786,7 +2786,7 @@ class SearchViwe {
         });
     }
 }
-exports.default = new SearchViwe();
+exports.default = new SearchView();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
 
