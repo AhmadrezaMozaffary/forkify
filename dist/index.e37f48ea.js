@@ -536,8 +536,9 @@ const controllRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
         if (!id) return;
-        // 0) Render spinner
         _recipeViewJsDefault.default.renderSpinner();
+        // 0) Update result view and mark with ACTIVE class
+        _resultsViewJsDefault.default.update(_modelJs.getSearchResultsPage());
         // 1) Loading Recipe
         await _modelJs.loadRecipe(id); // returns Promise
         // 2) Rendering Recipe
@@ -573,7 +574,7 @@ const controllServings = function(newServings) {
     // Update recipe serving (in state)
     _modelJs.updateServings(newServings);
     // Update the recipe view & Rendering Recipe
-    _recipeViewJsDefault.default.render(_modelJs.state.recipe);
+    _recipeViewJsDefault.default.update(_modelJs.state.recipe);
 };
 const init = function() {
     //Subscriber  -> P-S pattern
@@ -2508,6 +2509,23 @@ class View {
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
+    update(data) {
+        // Partial DOM update ALGORITHM
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            // Update changed TEXT
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== "") curEl.textContent = newEl.textContent;
+            // Update changed ATTRIBUTES
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value)
+            );
+        });
+    }
     renderSpinner() {
         const markup = `
           <div class="spinner">
@@ -2868,9 +2886,10 @@ class ResultsView extends _viewDefault.default {
         return this._data.map(this._generateMarkupPreview).join("");
     }
     _generateMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
         return `
         <li class="preview">
-            <a class="preview__link" href="#${result.id}">
+            <a class="preview__link ${result.id === id ? "preview__link--active" : ""}" href="#${result.id}">
             <figure class="preview__fig">
                 <img src="${result.image}" alt="${result.title}" />
             </figure>
