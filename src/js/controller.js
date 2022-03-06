@@ -16,7 +16,7 @@ const controllRecipes = async function () {
 
     // 0) Update result view and mark with ACTIVE class
     resultsView.update(model.getSearchResultsPage());
-    
+
     // 1) Loading Recipe
     await model.loadRecipe(id); // returns Promise
 
@@ -40,7 +40,7 @@ const controllSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render results
-    resultsView.render(model.getSearchResultsPage(1));
+    resultsView.render(model.getSearchResultsPage());
 
     // 4) Render initial pagination button(s)
     paginationView.render(model.state.search);
