@@ -17,7 +17,7 @@ const controllRecipes = async function () {
 
     // 0) Update result view and mark with ACTIVE class
     resultsView.update(model.getSearchResultsPage());
-    bookmarksView.update(model.state.bookmarks)
+    bookmarksView.update(model.state.bookmarks);
 
     // 1) Loading Recipe
     await model.loadRecipe(id); // returns Promise
@@ -76,11 +76,16 @@ const controllAddBookmark = function () {
   recipeView.update(model.state.recipe);
 
   // 3) Render bookmark
-  bookmarksView.render(model.state.bookmarks)
+  bookmarksView.render(model.state.bookmarks);
+};
+
+const controllBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const init = function () {
   //Subscriber  -> P-S pattern
+  bookmarksView.addHandlerRender(controllBookmarks);
   recipeView.addHandlerRender(controllRecipes);
   recipeView.addHandlerUpdateServings(controllServings);
   recipeView.addHandlerAddBookmark(controllAddBookmark);
